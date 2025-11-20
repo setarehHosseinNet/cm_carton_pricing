@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- =========================================================
+         لیست استعلام‌های قیمت کارتن
+    ========================================================== -->
+    <record id="view_cm_carton_price_inquiry_list" model="ir.ui.view">
+        <field name="name">cm.carton.price_inquiry.list</field>
+        <field name="model">cm.carton.price_inquiry</field>
+        <field name="arch" type="xml">
+            <list string="استعلام‌های قیمت کارتن">
+                <field name="create_date"/>
+                <field name="partner_id"/>
+                <field name="customer_product_id"/>
+                <field name="carton_type"/>
+                <field name="quantity"/>
+                <field name="flow_mode"/>
+                <field name="industrial_width_mm"/>
+                <field name="base_cost_per_carton"/>
+                <field name="unit_price_with_tax"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- =========================================================
+         فرم استعلام قیمت کارتن
+    ========================================================== -->
+    <record id="view_cm_carton_price_inquiry_form" model="ir.ui.view">
+        <field name="name">cm.carton.price_inquiry.form</field>
+        <field name="model">cm.carton.price_inquiry</field>
+        <field name="arch" type="xml">
+            <form string="استعلام قیمت کارتن">
+                <header>
+                    <button name="action_compute"
+                            string="محاسبه"
+                            type="object"
+                            class="btn-primary"/>
+                    <button name="action_mark_sent"
+                            string="ارسال به مشتری"
+                            type="object"
+                            class="btn-secondary"
+                            attrs="{'invisible': [('state','!=','calculated')]}"/>
+                    <button name="action_accept"
+                            string="تأیید و ایجاد سفارش"
+                            type="object"
+                            class="btn-success"
+                            attrs="{'invisible': [('state','!=','sent')]}"/>
+                    <button name="action_reject"
+                            string="رد پیشنهاد"
+                            type="object"
+                            class="btn-danger"
+                            attrs="{'invisible': [('state','not in',['calculated','sent'])]}"/>
+                    <field name="state"
+                           widget="statusbar"
+                           statusbar_visible="draft,waiting_quotes,calculated,sent,accepted,rejected"/>
+                </header>
+
+                <sheet>
+
+                    <!-- هدر بالای فرم -->
+                    <div class="oe_title">
+                        <h1>
+                            <field name="customer_product_id" class="oe_inline"/>
+                        </h1>
+                        <h2>
+                            <field name="partner_id" class="oe_inline"/>
+                        </h2>
+                    </div>
+
+                    <!-- مشخصات پایه -->
+                    <group>
+                        <group string="اطلاعات استعلام">
+                            <field name="partner_id"/>
+                            <field name="customer_product_id"/>
+                            <field name="carton_type" readonly="1"/>
+                            <field name="quantity"/>
+                            <field name="flow_mode"/>
+                        </group>
+
+                        <group string="ابعاد / قالب / شیت">
+                            <field name="flat_width_mm" readonly="1"/>
+                            <field name="flat_length_mm" readonly="1"/>
+                            <field name="die_width_mm"
+                                   attrs="{'invisible': [('flow_mode','!=','full')]}"/>
+                            <field name="die_length_mm"
+                                   attrs="{'invisible': [('flow_mode','!=','full')]}"/>
+                            <field name="industrial_width_mm"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+
+                        <!-- پیشنهاد عرض ورق -->
+                 <page string="پیشنهاد عرض ورق">
+    <group>
+        <field name="suggestion_ids">
+<!--            <tree editable="bottom" string="پیشنهادهای چیدمان روی عرض‌های صنعتی">-->
+<!--                <field name="industrial_width_cm"/>-->
+<!--                <field name="carton_per_row"/>-->
+<!--                <field name="waste_cm"/>-->
+<!--                <field name="waste_percent"/>-->
+<!--                <field name="total_length_cm"/>-->
+<!--            </tree>-->
+        </field>
+    </group>
+</page>
+
+                        <!-- استعلام‌های جزئی -->
+                        <page string="استعلام‌های جزئی">
+                            <group>
+                                <group string="نیاز به استعلام">
+                                    <field name="need_design_quote"/>
+                                    <field name="need_print_quote"/>
+                                    <field name="need_staple_quote"/>
+                                    <field name="need_punch_quote"/>
+                                    <field name="need_pallet_quote"/>
+                                    <field name="need_shipping_quote"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="sub_quote_ids">
+                                    <tree editable="bottom" string="استعلام‌های جزئی">
+                                        <field name="type"/>
+                                        <field name="required"/>
+                                        <field name="partner_id"/>
+                                        <field name="estimated_cost"/>
+                                        <field name="state"/>
+                                        <field name="note"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+
+                        <!-- هزینه‌ها -->
+                        <page string="هزینه‌ها">
+                            <group string="مواد و سربار">
+                                <group>
+                                    <field name="paper_price_per_m2"/>
+                                    <field name="material_cost_total" readonly="1"/>
+                                    <field name="overhead_cost_total" readonly="1"/>
+                                </group>
+                                <group string="هزینه‌های ثابت / خدمات">
+                                    <field name="die_cost"/>
+                                    <field name="cliche_cost"/>
+                                    <field name="design_cost"/>
+                                </group>
+                                <group string="هزینه‌های عملیاتی">
+                                    <field name="punch_cost_total"/>
+                                    <field name="pallet_wrap_cost_total"/>
+                                    <field name="shipping_cost"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- قیمت نهایی -->
+                        <page string="قیمت نهایی">
+                            <group>
+                                <group string="سیاست قیمت‌گذاری">
+                                    <field name="payment_type"/>
+                                    <field name="margin_cash_percent"/>
+                                    <field name="margin_credit_percent"/>
+                                    <field name="tax_percent"/>
+                                </group>
+                                <group string="خروجی قیمت">
+                                    <field name="base_cost_per_carton" readonly="1"/>
+                                    <field name="sale_price_cash" readonly="1"/>
+                                    <field name="sale_price_credit" readonly="1"/>
+                                    <field name="unit_price_with_tax" readonly="1"/>
+                                    <field name="total_price_with_tax" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- فروش / CRM -->
+                        <page string="فروش / CRM">
+                            <group string="اتصال به فروش و فرصت">
+                                <field name="sale_order_id"/>
+                                <field name="crm_lead_id"/>
+                            </group>
+                            <group string="رد پیشنهاد">
+                                <field name="rejection_reason"/>
+                                <field name="rejection_attachment_ids"
+                                       widget="many2many_binary"/>
+                            </group>
+                        </page>
+
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- =========================================================
+         اکشن اصلی استعلام قیمت
+    ========================================================== -->
+    <record id="action_cm_carton_price_inquiry" model="ir.actions.act_window">
+        <field name="name">استعلام‌های قیمت کارتن</field>
+        <field name="res_model">cm.carton.price_inquiry</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p>
+                در این قسمت می‌توانی استعلام‌های قیمت کارتن و ورق را ثبت، محاسبه و به سفارش فروش تبدیل کنی.
+            </p>
+        </field>
+    </record>
+
+    <!-- =========================================================
+         اکشن استعلام‌های در انتظار
+    ========================================================== -->
+    <record id="action_cm_carton_price_inquiry_pending" model="ir.actions.act_window">
+        <field name="name">استعلام‌های در انتظار</field>
+        <field name="res_model">cm.carton.price_inquiry</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[("state", "in", ["draft","waiting_quotes","calculated","sent"])]</field>
+        <field name="help" type="html">
+            <p>
+                این لیست، استعلام‌هایی را نشان می‌دهد که هنوز نهایی نشده‌اند و نیاز به پیگیری دارند.
+            </p>
+        </field>
+    </record>
+
+</odoo>

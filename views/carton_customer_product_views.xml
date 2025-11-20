@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- =========================================================
+         لیست محصولات اختصاصی مشتری
+    ========================================================== -->
+    <record id="view_cm_carton_customer_product_list" model="ir.ui.view">
+        <field name="name">cm.carton.customer_product.list</field>
+        <field name="model">cm.carton.customer_product</field>
+        <field name="arch" type="xml">
+            <list string="محصولات اختصاصی مشتری">
+                <field name="partner_id"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="carton_type"/>
+                <field name="length"/>
+                <field name="width"/>
+                <field name="height"/>
+                <field name="layer_count"/>
+                <field name="flute_step"/>
+                <field name="has_print"/>
+                <field name="default_quantity"/>
+                <field name="die_id"/>
+                <field name="has_been_produced"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- =========================================================
+         فرم محصول اختصاصی مشتری
+    ========================================================== -->
+    <record id="view_cm_carton_customer_product_form" model="ir.ui.view">
+        <field name="name">cm.carton.customer_product.form</field>
+        <field name="model">cm.carton.customer_product</field>
+        <field name="arch" type="xml">
+            <form string="محصول اختصاصی مشتری">
+                <sheet>
+
+                    <!-- هدر بالا (مشتری + نام محصول) -->
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <h2>
+                            <field name="partner_id" class="oe_inline"/>
+                        </h2>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="code"/>
+                            <field name="carton_type"/>
+                            <field name="sale_product_id"/>
+                            <field name="default_quantity"/>
+                            <field name="has_been_produced"/>
+                        </group>
+                        <group>
+                            <field name="length"/>
+                            <field name="width"/>
+                            <field name="height"/>
+                            <field name="layer_count"/>
+                            <field name="flute_step"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+
+                        <!-- ساختار کارتن -->
+                        <page string="ساختار و ویژگی‌ها">
+                            <group string="ساختار کارتن">
+                                <group>
+                                    <field name="piece_type"/>
+                                    <field name="door_type"/>
+                                    <field name="door_count"/>
+                                </group>
+                                <group>
+                                    <field name="has_print"/>
+                                    <field name="is_dimension_by_sample"/>
+                                    <field name="has_sample"/>
+                                </group>
+                            </group>
+
+                            <group string="ویژگی‌های پیش‌فرض خدمات">
+                                <group>
+                                    <field name="has_new_cliche_default"/>
+                                    <field name="has_mankan_default"/>
+                                    <field name="has_handle_hole_default"/>
+                                </group>
+                                <group>
+                                    <field name="has_punch_default"/>
+                                    <field name="has_pallet_wrap_default"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- قالب و کلیشه‌ها -->
+                     <group string="قالب و کلیشه‌ها">
+    <group>
+        <field name="die_id"/>
+    </group>
+    <group>
+        <field name="cliche_ids">
+<!--            <tree editable="bottom" string="کلیشه‌ها">-->
+<!--                <field name="name"/>-->
+<!--                <field name="color"/>-->
+<!--                <field name="side"/>-->
+<!--                <field name="cliche_cost"/>-->
+<!--                <field name="print_cost_per_1000"/>-->
+<!--                <field name="is_laminate"/>-->
+<!--                <field name="active"/>-->
+<!--            </tree>-->
+        </field>
+    </group>
+</group>
+
+                        <!-- توضیحات فنی -->
+                        <page string="توضیحات فنی">
+                            <group>
+                                <field name="note" colspan="4"/>
+                            </group>
+                        </page>
+
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- =========================================================
+         اکشن باز کردن لیست محصولات اختصاصی
+    ========================================================== -->
+    <record id="action_cm_carton_customer_product" model="ir.actions.act_window">
+        <field name="name">محصولات اختصاصی مشتری</field>
+        <field name="res_model">cm.carton.customer_product</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p>
+                در این بخش می‌توانی برای هر مشتری، محصولات اختصاصی (کارتن، دایکاتی، لمینتی، ورق)
+                را به همراه ابعاد، قالب و کلیشه‌ها تعریف کنی تا در استعلام قیمت و سفارش فروش استفاده شوند.
+            </p>
+        </field>
+    </record>
+
+</odoo>

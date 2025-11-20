@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- =========================================================
+         منوی ریشه: کارتن اختصاصی مشتری
+    ========================================================== -->
+    <menuitem id="menu_cm_carton_root"
+              name="کارتن اختصاصی"
+              sequence="50"/>
+
+    <!-- =========================================================
+         محصولات اختصاصی مشتری
+    ========================================================== -->
+    <menuitem id="menu_cm_carton_customer_products"
+              name="محصولات مشتری"
+              parent="menu_cm_carton_root"
+              action="action_cm_carton_customer_product"
+              sequence="10"/>
+
+    <!-- =========================================================
+         استعلام‌های قیمت (همه)
+    ========================================================== -->
+    <menuitem id="menu_cm_carton_price_inquiry_all"
+              name="همه استعلام‌های قیمت"
+              parent="menu_cm_carton_root"
+              action="action_cm_carton_price_inquiry"
+              sequence="20"/>
+
+    <!-- =========================================================
+         استعلام‌های در انتظار پیگیری
+    ========================================================== -->
+    <menuitem id="menu_cm_carton_price_inquiry_pending"
+              name="استعلام‌های در انتظار"
+              parent="menu_cm_carton_root"
+              action="action_cm_carton_price_inquiry_pending"
+              sequence="30"/>
+
+</odoo>

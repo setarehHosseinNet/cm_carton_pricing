@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cm_carton_customer_product,access_cm_carton_customer_product,model_cm_carton_customer_product,base.group_user,1,1,1,1
+access_cm_carton_price_inquiry,access_cm_carton_price_inquiry,model_cm_carton_price_inquiry,base.group_user,1,1,1,1
+access_cm_carton_sheet_suggestion,access_cm_carton_sheet_suggestion,model_cm_carton_sheet_suggestion,base.group_user,1,1,1,1
+access_cm_carton_sub_quote,access_cm_carton_sub_quote,model_cm_carton_sub_quote,base.group_user,1,1,1,1
+access_cm_carton_die_user,cm_carton_die_user,model_cm_carton_die,base.group_user,1,1,1,0
+access_cm_carton_cliche_user,cm_carton_cliche_user,model_cm_carton_cliche,base.group_user,1,1,1,0
